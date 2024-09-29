@@ -38,7 +38,9 @@ endef
 TARGET_CFLAGS += -DONLY_FE_TONEAREST
 define Build/Install
 	$(INSTALL_DIR) $(PKG_INSTALL_DIR)/usr/lib/
+	$(INSTALL_DIR) $(PKG_INSTALL_DIR)/usr/lib/quickjs
 	$(CP) $(PKG_BUILD_DIR)/quickjs/libquickjs.a $(PKG_INSTALL_DIR)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/quickjs/libquickjs.a $(PKG_INSTALL_DIR)/usr/lib/quickjs/
 	$(INSTALL_DIR) $(PKG_INSTALL_DIR)/usr/include/quickjs/
 	$(CP) $(PKG_BUILD_DIR)/quickjspp.hpp $(PKG_INSTALL_DIR)/usr/include/
 	$(CP) $(PKG_BUILD_DIR)/quickjs/quickjs*.h $(PKG_INSTALL_DIR)/usr/include/quickjs/
