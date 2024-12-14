@@ -48,6 +48,7 @@ define Package/subconverter/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/subconverter $(1)/usr/bin/subconverter
 	$(INSTALL_DIR) $(1)/etc/subconverter
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/subconverter $(1)/etc/subconverter/subconverter
 	$(CP) $(PKG_BUILD_DIR)/base/* $(1)/etc/subconverter/
 	$(CP) $(PKG_BUILD_DIR)/base/pref.example.ini $(1)/etc/subconverter/pref.ini
 	$(INSTALL_DIR) $(1)/etc/init.d

@@ -3,7 +3,8 @@
 START=99
 USE_PROCD=1
 
-BIN="/usr/bin/subconverter"
+# BIN="/usr/bin/subconverter"
+BIN="/etc/subconverter/subconverter"
 CONF="/etc/subconverter/pref.ini"
 LOG_FILE="/var/log/subconverter.log"
 
