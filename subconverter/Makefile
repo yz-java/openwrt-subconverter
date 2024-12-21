@@ -5,14 +5,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=subconverter
-PKG_BASE_VERSION:=0.9.0
+PKG_BASE_VERSION:=0.9.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/tindy2013/subconverter.git
-PKG_SOURCE_DATE:=2024-04-08
-PKG_SOURCE_VERSION:=b9ad0c2ee2b959e2b10195e928bf8f30f55a6a78
-PKG_MIRROR_HASH:=dba0837c2e0c078e87cf9b03688a8a55576897d4e6fe3e41763bb5497ed4a7e9
+PKG_SOURCE_URL:=https://github.com/yz-java/subconverter.git
+PKG_SOURCE_DATE:=2024-12-21
+PKG_SOURCE_VERSION:=36b158e9e64caacb00cfdb7ac038301412c6029e
+# PKG_MIRROR_HASH:=dba0837c2e0c078e87cf9b03688a8a55576897d4e6fe3e41763bb5497ed4a7e9
 
 PKG_VERSION:=$(PKG_BASE_VERSION)-$(PKG_SOURCE_DATE)-$(call version_abbrev,$(PKG_SOURCE_VERSION))
 
@@ -30,7 +30,7 @@ define Package/subconverter
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=Proxy subscription formats converter
-  URL:=https://github.com/tindy2013/subconverter
+  URL:=https://github.com/yz-java/subconverter.git
   DEPENDS:=+libpthread +libstdcpp +libevent2 +libyaml-cpp +libpcre2 +libcurl
 endef
 
