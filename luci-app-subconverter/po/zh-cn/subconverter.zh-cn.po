@@ -55,3 +55,6 @@ msgstr "清空订阅信息"
 
 msgid "Version"
 msgstr "版本号"
+
+msgid "Copy Success"
+msgstr "复制成功"

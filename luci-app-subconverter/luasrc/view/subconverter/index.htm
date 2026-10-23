@@ -7,6 +7,26 @@
 	textarea::placeholder {
 		color: #909090;
 	}
+
+	.toast-notification {
+		position: fixed;
+		top: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		background: #4CAF50;
+		color: white;
+		padding: 12px 24px;
+		border-radius: 4px;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+		z-index: 9999;
+		opacity: 0;
+		transition: opacity 0.3s ease-in-out;
+		font-size: 14px;
+	}
+
+	.toast-notification.show {
+		opacity: 1;
+	}
 </style>
 
 <body>
@@ -42,7 +62,26 @@
 		window.onload = function(){
 			// check_service_status();
 		}
-		function copy_sub_url(){
+		function showToast(message, duration) {
+			duration = duration || 2000;
+			var toast = document.createElement('div');
+			toast.className = 'toast-notification';
+			toast.textContent = message;
+			document.body.appendChild(toast);
+			
+			setTimeout(function() {
+				toast.classList.add('show');
+			}, 10);
+			
+			setTimeout(function() {
+				toast.classList.remove('show');
+				setTimeout(function() {
+					document.body.removeChild(toast);
+				}, 300);
+			}, duration);
+		}
+
+		function copy_sub_url(btn){
 			let subscribeAddress = document.getElementsByName('cbid.subconverter.config.subscribeAddress')[0].value
 			var lines = subscribeAddress.split("\n");
 			subscribeAddress=lines.join("|")
@@ -58,8 +97,37 @@
 			document.execCommand("copy");
 			// 移除临时输入框
 			document.body.removeChild(tempInput);
-			alert("<%:Copy Success%>");
-			document.getElementsByTagName("form")[0].submit();
+			// 显示成功提示
+			showToast("<%:Copy Success%>", 2000);
+			
+			// 读取配置文件中的值并与输入框比较
+			XHR.get('<%=luci.dispatcher.build_url("admin", "services", "subconverter", "getconfig")%>', {}, function(x, status) {
+				if (x && x.status == 200) {
+					let config = JSON.parse(x.responseText);
+					
+					let configSubscribeAddress = config.subscribeAddress || "";
+					let configClient = config.client || "";
+					let configRemoteConfig = config.remoteConfig || "";
+					
+					let inputSubscribeAddress = document.getElementsByName('cbid.subconverter.config.subscribeAddress')[0].value || "";
+					let inputClient = document.getElementsByName('cbid.subconverter.config.client')[0].value || "";
+					let inputRemoteConfig = document.getElementsByName('cbid.subconverter.config.remoteConfig')[0].value || "";
+					
+					// 标准化比较（去除换行符）
+					let configSubscribeNormalized = configSubscribeAddress.replace(/\r?\n/g, "").trim();
+					let inputSubscribeNormalized = inputSubscribeAddress.replace(/\r?\n/g, "").trim();
+					
+					// 判断是否有任何一个值不同
+					if (configSubscribeNormalized !== inputSubscribeNormalized || 
+					    configClient !== inputClient || 
+					    configRemoteConfig !== inputRemoteConfig) {
+						// 值不同，自动保存配置
+						setTimeout(function() {
+							cbi_submit(btn, 'cbi.apply');
+						}, 2100);
+					}
+				}
+			});
 		}
 
 		function restart_service(){
